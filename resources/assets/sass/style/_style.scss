@@ -1,0 +1,477 @@
+@charset "UTF-8";
+
+// Variables;
+@import "variables";
+
+
+
+// .container {
+//     max-width: 1400px;
+//     width: 90%;
+// }
+// @media #{$large-and-up} {
+//     .container {
+//         width: 80%;
+//     }
+// }
+// @media #{$extra-large-and-up} {
+//     .container {
+//         width: 80%;
+//     }
+// }
+
+
+
+.modal {
+    max-height: 80%;
+
+    @media #{$large-and-up} {
+        width: 80%;
+    }
+    @media #{$extra-large-and-up} {
+        width: 80%;
+    }
+    @media (min-width: 1600px) {
+        width: 65%;
+    }
+}
+.checkbox-field {
+    margin: $input-margin;
+}
+
+
+
+
+/****** EXTRA BUTTONS ******/
+.btn-link {
+    padding: 0;
+
+    &:focus,
+    &:hover {
+        box-shadow: none;
+        background-color: transparent;
+        text-decoration: underline;
+    }
+}
+.btn-small {
+    height: $button-small-height;
+    line-height: $button-small-height;
+    font-size: $button-small-font-size;
+  
+    i {
+        font-size: $button-small-icon-font-size;
+
+        &.left {
+            margin-right: 5px;
+        }
+    }
+}
+
+
+
+
+/****** HEADINGS ******/
+.h1 {
+    font-size: 2.429rem;
+    line-height: 110%;
+    margin: 2.1rem 0 1.68rem 0;
+
+    @media (min-width: $small-screen-up) {
+        font-size: 2.857rem;
+    }
+    @media (min-width: $medium-screen-up) {
+        font-size: 3.286rem;
+    }
+}
+.h2 {
+    font-size: 2.143rem;
+    line-height: 110%;
+    margin: 1.78rem 0 1.424rem 0;
+
+    @media (min-width: $small-screen-up) {
+        font-size: 2.429rem;
+    }
+    @media (min-width: $medium-screen-up) {
+        font-size: 2.857rem;
+    }
+}
+.h3 {
+    font-size: 1.714rem;
+    line-height: 110%;
+    margin: 1.46rem 0 1.168rem 0;
+
+    @media (min-width: $small-screen-up) {
+        font-size: 2.143rem;
+    }
+    @media (min-width: $medium-screen-up) {
+        font-size: 2.429rem;
+    }
+}
+.h4 {
+    font-size: 1.429rem;
+    line-height: 110%;
+    margin: 1.14rem 0 0.912rem 0;
+
+    @media (min-width: $small-screen-up) {
+        font-size: 1.714rem;
+    }
+    @media (min-width: $medium-screen-up) {
+        font-size: 2rem;
+    }
+}
+.h5 {
+    font-size: 1.143rem;
+    line-height: 110%;
+    margin: 0.82rem 0 0.656rem 0;
+
+    @media (min-width: $small-screen-up) {
+        font-size: 1.429rem;
+    }
+    @media (min-width: $medium-screen-up) {
+        font-size: 1.714rem;
+    }
+}
+.h6 {
+    font-size: 1rem;
+    line-height: 110%;
+    margin: 0.5rem 0 0.4rem 0;
+
+    @media (min-width: $small-screen-up) {
+        font-size: 1.143rem;
+    }
+    @media (min-width: $medium-screen-up) {
+        font-size: 1.143rem;
+    }
+}
+
+
+
+body {
+    background-color: $page-background-color;
+}
+
+
+
+
+/****** DATETIME PICKER ******/
+#datepickers-container {
+    .datepicker {
+        .datepicker--nav {
+            width: auto;
+            color: #ffffff;
+            border: none;
+            background-color: $secondary-color;
+        }
+        .datepicker--pointer {
+            background: $secondary-color;
+        }
+        .datepicker--cell {
+            &.-selected-,
+            &.-selected-.-focus-,
+            &.-selected-.-current- {
+                background-color: $secondary-color;
+            }
+        }
+        .datepicker--time-row {
+            > .thumb,
+            > .thumb.active,
+            > .thumb > .value {
+                display: none !important;
+            }
+        }
+        .datepicker--nav-action path {
+            stroke: #ffffff;
+        }
+        .datepicker--nav-title i {
+            color: #ffffff;
+        }
+    }
+}
+
+
+
+
+/****** CSS LOADER ******/
+.loader-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    background-color: $loader-background-color;
+}
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -20px;
+    margin-left: -26px;
+    z-index: 10001;
+
+}
+@-webkit-keyframes line-scale-pulse-out-rapid {
+    0% {
+        -webkit-transform: scaley(1);
+        transform: scaley(1);
+    }
+    80% {
+        -webkit-transform: scaley(0.3);
+        transform: scaley(0.3);
+    }
+    90% {
+        -webkit-transform: scaley(1);
+        transform: scaley(1);
+    }
+}
+@keyframes line-scale-pulse-out-rapid {
+    0% {
+        -webkit-transform: scaley(1);
+                transform: scaley(1);
+    }
+    80% {
+        -webkit-transform: scaley(0.3);
+                transform: scaley(0.3);
+    }
+    90% {
+        -webkit-transform: scaley(1);
+                transform: scaley(1);
+    }
+}
+.line-scale-pulse-out-rapid {
+    > div {
+        background-color: $loader-line-color;
+        width: 4px;
+        height: 35px;
+        border-radius: 2px;
+        margin: 2px;
+        -webkit-animation-fill-mode: both;
+                animation-fill-mode: both;
+        display: inline-block;
+        vertical-align: middle;
+        -webkit-animation: line-scale-pulse-out-rapid 0.9s -0.5s infinite cubic-bezier(0.11, 0.49, 0.38, 0.78);
+                animation: line-scale-pulse-out-rapid 0.9s -0.5s infinite cubic-bezier(0.11, 0.49, 0.38, 0.78);
+    }
+    > div:nth-child(2),
+    > div:nth-child(4) {
+        -webkit-animation-delay: -0.25s !important;
+                animation-delay: -0.25s !important;
+    }
+    > div:nth-child(1),
+    > div:nth-child(5) {
+        -webkit-animation-delay: -0.25s !important;
+                animation-delay: -0.25s !important;
+    }
+}
+
+
+
+
+/****** MENU ******/
+.wgn-nav-bar {
+    .nav-menu {
+        width: auto;
+        height: auto;
+        line-height: inherit;
+        background-color: transparent;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+
+        ul {
+            li {
+                a {
+                    font-size: inherit;
+                }
+            }
+        }
+    }
+    .logo,
+    .nav-menu ul li,
+    .account-btn {
+        float: none;
+    }
+
+    .mobile-menu-wrapper {
+        .menu-btn {
+            > span {
+                display: inline-block;
+                font-size: 11px;
+            }
+        }
+    }
+
+    .mobile-menu-btn {
+        @media (max-width: 899px) {
+            display: inline-block;
+        }
+    }
+}
+
+
+
+
+.content {
+    padding: 70px 0 50px 0;
+}
+
+
+
+
+.home-options {
+    margin-top: 50px;
+}
+
+
+/****** MAP ******/ 
+.input-map {
+    width: 100%;
+    height: 300px;
+    border: none;
+}
+.modal .input-map {
+    height: 250px;
+
+    @media #{$large-and-up} {
+        height: 320px;
+    }
+}
+
+
+/****** CAROUSEL ******/ 
+.owl-carousel {
+    margin: 30px 0 40px 0;
+
+    .carousel-item {
+        height: 250px;
+        overflow: hidden;
+
+        @media (min-width: 993px) {
+            height: 250px;
+        }
+        @media (min-width: 1200px) {
+            height: 200px;
+        }
+        @media (min-width: 1600px) {
+            height: 250px;
+        }
+
+        img {
+            max-height: 100%;
+            height: 100%;
+            width: auto !important;
+        }
+    }
+}
+
+
+/****** INITIATIVES ******/
+.initiative-info {
+    margin-bottom: 25px;
+
+    .initiative-start-date,
+    .initiative-address {
+        position: relative;
+        display: block;
+        padding-left: 20px;
+        
+        &:before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-family: 'Material Icons';
+            color: $off-black;
+            content: "schedule";
+        }
+    }
+    .initiative-address {
+        &:before {
+            content: "place";
+        }
+    }
+}
+.initiatives {
+    .initiative-info {
+        margin-bottom: 15px;
+    }
+}
+.initiative-descr {
+    @media #{$medium-and-down} {
+        margin-top: 30px;
+    }
+}
+.helper ul {
+    margin: 0 0 15px 0;
+
+    > li {
+        display: inline-block;
+        margin-right: 5px;
+    }
+}
+.dropzone-wrapper {
+    margin-bottom: 40px;
+}
+
+.initiative-images {
+    margin-bottom: 25px;
+    
+    .btn-floating {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+}
+.comments-container {
+    margin-top: 10px;
+}
+
+
+
+/****** ASSOCIATIONS ******/ 
+.associations {
+    .card {
+        .card-title {
+            font-weight: 400;
+        }
+        .card-assoc-contacts {
+            margin-top: 25px;
+
+            @media #{$medium-and-down} {
+                margin-bottom: 30px;
+            }
+            
+            > ul {
+                margin: 0;
+            }
+            
+            .card-assoc-contact {
+                position: relative;
+                display: block;
+                padding-left: 20px;
+
+                .assoc-phone,
+                .assoc-email,
+                .assoc-website {
+                    &:before {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        font-family: 'Material Icons';
+                        color: $off-black;
+                        content: "call";
+                    }
+                }
+                .assoc-email:before {
+                    content: "email";
+                }
+                .assoc-website:before {
+                    content: "public";
+                }
+            }
+        }
+        .card-assoc-description {
+            background-color: rgba(230, 230, 230, 0.5) !important;
+        }
+    }
+}

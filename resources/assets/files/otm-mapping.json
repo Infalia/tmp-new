@@ -1,0 +1,58 @@
+{
+    "mappings":
+    [
+        {
+            "app_concept": "Offer",
+            "ontomap_concept": "Offer",
+            "properties": 
+            [
+                {
+                    "app_property": "id",
+                    "ontomap_property": "hasID"
+                },
+                {
+                    "app_property": "title",
+                    "ontomap_property": "hasName"
+                },
+                {
+                    "app_property": "description",
+                    "ontomap_property": "hasDescription"
+                }
+            ]
+        },
+        {
+            "app_concept": "Demand",
+            "ontomap_concept": "Demand",
+            "properties": 
+            [
+                {
+                    "app_property": "id",
+                    "ontomap_property": "hasID"
+                },
+                {
+                    "app_property": "title",
+                    "ontomap_property": "hasName"
+                },
+                {
+                    "app_property": "description",
+                    "ontomap_property": "hasDescription"
+                }
+            ]
+        },
+        {
+            "app_concept": "Comment",
+            "ontomap_concept": "Comment",
+            "properties": 
+            [
+                {
+                    "app_property": "id",
+                    "ontomap_property": "hasID"
+                },
+                {
+                    "app_property": "body",
+                    "ontomap_property": "hasDescription"
+                }
+            ]
+        }
+    ]
+}
