@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
+use App\User;
 use App\Association;
 use App\AssociationImage;
 
@@ -42,6 +44,46 @@ class AssociationController extends Controller
 
     function associationForm()
     {
+        $user = User::find(Auth::id());
+        $association = null;
+
+
+        $userId = null;
+        $title = '';
+        $phone = '';
+        $phone2 = '';
+        $email = '';
+        $website = '';
+        $description = '';
+        $latitude = '';
+        $longitude = '';
+        $address = '';
+        $inputMapData = '';
+
+        $mode = 'create';
+
+        if($user->association) {
+            $association = $user->association;
+
+            $title = $association->title;
+            $phone = $association->phone_1;
+            $phone2 = $association->phone_2;
+            $email = $association->email;
+            $website = $association->website;
+            $description = $association->description;
+            $latitude = $association->latitude;
+            $longitude = $association->longitude;
+            $address = $association->address;
+            $inputMapData = $association->input_map_data;
+
+            $mode = 'update';
+        }
+
+
+        // echo '<pre>';
+        // print_r($association);
+        // echo '</pre>';
+
         $pageTitle = __('messages.association_form_page_title');
         $metaDescription = __('messages.association_form_page_meta_description');
         $associationFormHeading1 = __('messages.association_form_heading_1');
@@ -70,6 +112,21 @@ class AssociationController extends Controller
             ->with('pageTitle', $pageTitle)
             ->with('metaDescription', $metaDescription)
             ->with('associationFormHeading1', $associationFormHeading1)
+
+            ->with('association', $association)
+            ->with('userId', $userId)
+            ->with('title', $title)
+            ->with('phone', $phone)
+            ->with('phone2', $phone2)
+            ->with('email', $email)
+            ->with('website', $website)
+            ->with('description', $description)
+            ->with('latitude', $latitude)
+            ->with('longitude', $longitude)
+            ->with('address', $address)
+            ->with('inputMapData', $inputMapData)
+            ->with('mode', $mode)
+
             ->with('titleLbl', $titleLbl)
             ->with('titlePldr', $titlePldr)
             ->with('descriptionLbl', $descriptionLbl)
@@ -93,6 +150,12 @@ class AssociationController extends Controller
 
     function storeAssociation(Request $request)
     {
+        $mode = 'create';
+
+        if(User::find(Auth::id())->association) {
+            $mode = 'update';
+        }
+
         $rules = array();
         $title = $request->input('title');
         $phone = $request->input('phone');
@@ -123,9 +186,12 @@ class AssociationController extends Controller
             $rules['website'] = ['regex:/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/'];
         }
         $rules['description'] = 'required';
-        $rules['latitude'] = 'required|numeric';
-        $rules['longitude'] = 'required|numeric';
-        $rules['address'] = 'required|max:255';
+
+        if('create' == $mode) {
+            $rules['latitude'] = 'required|numeric';
+            $rules['longitude'] = 'required|numeric';
+            $rules['address'] = 'required|max:255';
+        }
 
         
 
@@ -140,32 +206,54 @@ class AssociationController extends Controller
             ]);
         }
         else {
-            $association = new Association(
-                ['title' => $title,
-                 'phone_1' => $phone,
-                 'phone_2' => $phone2,
-                 'email' => $email,
-                 'website' => $website,
-                 'description' => $description,
-                 'latitude' => $latitude,
-                 'longitude' => $longitude,
-                 'address' => $address,
-                 'is_published' => 0,
-                 'input_map_data' => $inputMapData,
-                 'created_at' => date('Y-m-d H:i:s')
-                ]);
+            if('update' == $mode) {
+                $association = User::find(Auth::id())->association;
 
+                $association->title = $title;
+                $association->phone_1 = $phone;
+                $association->phone_2 = $phone2;
+                $association->email = $email;
+                $association->website = $website;
+                $association->description = $description;
+                if(!empty($latitude)) $association->latitude = $latitude;
+                if(!empty($longitude)) $association->longitude = $longitude;
+                if(!empty($address)) $association->address = $address;
+                if(!empty($inputMapData)) $association->input_map_data = $inputMapData;
+                $association->updated_at = date('Y-m-d H:i:s');
 
-            $isInserted = $association->save();
+                $isSaved = $association->save();
+            }
+            else {
+                $association = new Association(
+                    ['title' => $title,
+                    'phone_1' => $phone,
+                    'phone_2' => $phone2,
+                    'email' => $email,
+                    'website' => $website,
+                    'description' => $description,
+                    'latitude' => $latitude,
+                    'longitude' => $longitude,
+                    'address' => $address,
+                    'is_published' => 0,
+                    'input_map_data' => $inputMapData,
+                    'created_at' => date('Y-m-d H:i:s')
+                    ]);
 
-            if($isInserted) {
-                $lastInsertedId = $association->id;
+                $isSaved = User::find(Auth::id())->association()->save($association);   
+            }
+            
+            
+
+            //$isInserted = $association->save();
+
+            if($isSaved) {
+                $associationId = $association->id;
             }
         }
 
 
         return response()->json([
-            'assocId' => $lastInsertedId,
+            'assocId' => $associationId,
             'message' => __('messages.association_form_success.stored')
         ]);
     }
@@ -208,6 +296,40 @@ class AssociationController extends Controller
             ]);
 		}
     }
+
+    function imageRemove(Request $request)
+	{
+        $associationId = $request->input('init_id');
+        $imageId = $request->input('image_id');
+        $initImages = array();
+
+        
+        $associationImage = AssociationImage::find($imageId);
+
+        if(!empty($associationImage)) {
+            $imageName = $associationImage->name;
+            $isDeleted = $associationImage->delete();
+
+            if($isDeleted) {
+                Storage::delete('public/associations/'.$imageName);
+            }
+        }
+
+
+        $associationImages = Association::find($associationId)->images;
+
+        $counter = 0;
+        foreach($associationImages as $image) {
+            $initImages[$counter] = array('id' => $image->id, 'name' => $image->name);
+
+            $counter++;
+        }
+
+
+        return response()->json([
+            'initImages' => $initImages
+        ]);
+	}
     
     function getFileSize($filePath, $clearStatCache = false)
     {

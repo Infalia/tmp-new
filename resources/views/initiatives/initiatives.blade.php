@@ -2,16 +2,20 @@
 
 @section('content')
     <div class="content">
-        <div class="container">
+        {{--  <div class="container">  --}}
             <div class="initiatives">
 
                 @if(Auth::check())
-                <a class="waves-effect waves-light btn" href="{{ url('offer/new') }}"><i class="material-icons left">add</i> {{ $postBtn }}</a>
+                <div class="row">
+                    <div class="col s12">
+                        <a class="waves-effect waves-light btn" href="{{ url('offer/new') }}"><i class="material-icons left">add</i> {{ $postBtn }}</a>
+                    </div>
+                </div>
                 @endif
 
                 <div class="row masonry-cols">
                     @forelse($initiatives as $initiative)
-                    <div class="col s12 m6 l6 xl4 masonry-col">
+                    <div class="col s12 m6 l4 xl3 masonry-col">
                         <div class="card">
                             
                             <div class="card-image">
@@ -63,7 +67,7 @@
 
                 </div>
             </div>
-        </div>
+        {{--  </div>  --}}
 
     </div>
 @endsection

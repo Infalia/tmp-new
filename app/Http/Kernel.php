@@ -57,6 +57,7 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'uwumAuth' => \App\Http\Middleware\UwumAuthenticate::class,
+        'uwumRoleAuth' => \App\Http\Middleware\UwumRoleAuthenticate::class,
         'curUserAuth' => \App\Http\Middleware\CurrentUserAuthenticate::class,
     ];
 }

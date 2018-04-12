@@ -94,21 +94,48 @@ class UwumLoginController extends Controller
                 
 
                 if(1 == $accessTokenResponse['logged_in']) {
-                    $user = User::find($accessTokenResponse['member_id']);
+                    // If is logged in as an association
+                    if(isset($accessTokenResponse['member_is_role']) && 1 == $accessTokenResponse['member_is_role']) {
+                        $userId = $userInfoResponse['real_member']['id'];
+                        $userName = $userInfoResponse['real_member']['name'];
+                        $userEmail = null;
+
+                        $requestHttp->session()->put('association.member_is_role', $accessTokenResponse['member_is_role']);
+                        $requestHttp->session()->put('association.member_id', $userInfoResponse['member']['id']);
+                        $requestHttp->session()->put('association.member_name', $userInfoResponse['member']['name']);
+                        $requestHttp->session()->put('association.real_member_id', $userInfoResponse['real_member']['id']);
+                        $requestHttp->session()->put('association.real_member_name', $userInfoResponse['real_member']['name']);
+                    }
+                    else {
+                        $userId = $userInfoResponse['member']['id'];
+                        $userName = $userInfoResponse['member']['name'];
+                        $userEmail = null;
+
+                        if(isset($userEmailResponse['result']['notify_email'])) {
+                            $userEmail = $userEmailResponse['result']['notify_email'];
+                        }
+
+                        if($requestHttp->session()->exists('association')) {
+                            $requestHttp->session()->forget('association');
+                        }
+                    }
+
+                    $user = User::find($userId);
+
 
                     if(!empty($user)) {
                         $toBeUpdated = false;
 
                         // TMP user name is different from UWUM user name
-                        if($user->name != $userInfoResponse['member']['name']) {
-                            $user->name = $userInfoResponse['member']['name'];
+                        if($user->name != $userName) {
+                            $user->name = $userName;
                             $toBeUpdated = true;
                         }
 
-                        if(isset($userEmailResponse['result']['notify_email'])) {
+                        if(!empty($userEmail)) {
                             // TMP user email is different from UWUM user email
-                            if($user->email != $userEmailResponse['result']['notify_email']) {
-                                $user->email = $userEmailResponse['result']['notify_email'];
+                            if($user->email != $userEmail) {
+                                $user->email = $userEmail;
                                 $toBeUpdated = true;
                             }
 
@@ -119,15 +146,15 @@ class UwumLoginController extends Controller
                             $user->save();
                         }
                         
-                        Auth::loginUsingId($accessTokenResponse['member_id']);
+                        Auth::loginUsingId($userId);
                     }
                     else {
                         $user = new User;
-                        $user->id = $accessTokenResponse['member_id'];
-                        $user->name = $userInfoResponse['member']['name'];
+                        $user->id = $userId;
+                        $user->name = $userName;
 
-                        if(isset($userEmailResponse['result']['notify_email'])) {
-                            $user->email = $userEmailResponse['result']['notify_email'];
+                        if(!empty($userEmail)) {
+                            $user->email = $userEmail;
                         }
 
                         $user->save();

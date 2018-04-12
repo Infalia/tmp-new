@@ -269,53 +269,47 @@ body {
 
 
 /****** MENU ******/
-.wgn-nav-bar {
-    .nav-menu {
-        width: auto;
-        height: auto;
-        line-height: inherit;
-        background-color: transparent;
-        -webkit-box-shadow: none;
-        -moz-box-shadow: none;
-        box-shadow: none;
+// .wgn-nav-bar .nav-menu {
+//     width: auto;
+//     height: auto;
+//     line-height: inherit;
+//     background-color: transparent;
+//     -webkit-box-shadow: none;
+//     -moz-box-shadow: none;
+//     box-shadow: none;
+// }
+// .wgn-nav-bar .logo,
+// .wgn-nav-bar .nav-menu ul li,
+// .wgn-nav-bar .account-btn {
+//     float: none;
+// }
+// .wgn-nav-bar .nav-menu ul li a {
+//     font-size: inherit;
+// }
 
-        ul {
-            li {
-                a {
-                    font-size: inherit;
-                }
-            }
-        }
-    }
-    .logo,
-    .nav-menu ul li,
-    .account-btn {
-        float: none;
-    }
 
-    .mobile-menu-wrapper {
-        .menu-btn {
-            > span {
-                display: inline-block;
-                font-size: 11px;
-            }
-        }
-    }
+/*** Mobile menu ***/
+/* Humburger button */
+// .wgn-nav-bar .mobile-menu-wrapper .menu-btn > span {
+//     display: inline-block;
+//     font-size: 11px;
+// }
 
-    .mobile-menu-btn {
-        @media (max-width: 899px) {
-            display: inline-block;
-        }
-    }
-}
+// @media (max-width: 899px) {
+//     .wgn-nav-bar .mobile-menu-btn {
+//         display: inline-block;
+//     }
+// }
 
 
 
 
-.content {
-    padding: 70px 0 50px 0;
-}
-
+// @media (min-width: $medium-screen-up) {
+//     .content {
+//         margin-left: 300px;
+//         padding: 0 20px;
+//     }
+// }
 
 
 

@@ -6,7 +6,14 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    function index() {
+    function index(Request $request) {
+        $isAssociation = false;
+
+        if($request->session()->exists('association') && 1 == $request->session()->get('association.member_is_role')) {
+            $isAssociation = true;
+        }
+
+
         $pageTitle = __('messages.initiatives_page_title');
         $metaDescription = __('messages.initiatives_page_meta_description');
         $heading1 = __('messages.home_heading_1');
@@ -31,6 +38,7 @@ class HomeController extends Controller
             ->with('text3', $text3)
             ->with('link1', $link1)
             ->with('link2', $link2)
-            ->with('link3', $link3);
+            ->with('link3', $link3)
+            ->with('isAssociation', $isAssociation);
     }
 }

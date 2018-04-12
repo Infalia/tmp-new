@@ -1,3 +1,3 @@
 <div>
-    {{--  @php echo $uwumNavigation->result; @endphp  --}}
+    @php echo $uwumNavigation->result; @endphp
 </div>

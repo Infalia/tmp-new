@@ -37,7 +37,10 @@
 
                         <div class="card-action">
                             <a href="{{ url('/associations') }}" class="teal-text text-lighten-1">{{ $link2 }}</a>
+
+                            @if ($isAssociation == true)
                             <a href="{{ url('/association/register') }}" class="right teal-text text-lighten-1">{{ $link3 }}</a>
+                            @endif
                         </div>
                     </div>
                 </div>

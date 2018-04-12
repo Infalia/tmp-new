@@ -54,7 +54,7 @@
 
    
                         <div class="col s12 xl6">
-                            <iframe class="input-map" title="input a location" src="{{ config('app.url') }}/plugins/inputmap/src/index.html?domain={{ config('app.url') }}&mode=lite"></iframe>
+                            <iframe class="input-map" title="input a location" src="https://inputmap.firstlife.org?domain={{ config('app.url') }}&mode=lite"></iframe>
                             
                             <div class="helper">
                                 <h2 class="h6"><u>Area Info</u></h2>
@@ -271,9 +271,9 @@
                     return
                 e.preventDefault();
 
-                if(e.origin !== iframeDomain) {
-                    return;
-                }
+                //if(e.origin !== iframeDomain) {
+                //    return;
+                //}
 
                 if(e.data.src == 'InputMap')
                     setInputMapData(e.data);

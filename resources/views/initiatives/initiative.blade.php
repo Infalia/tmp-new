@@ -125,20 +125,12 @@
         var map = L.map('map').setView([lat, lng], zoom);
         mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
 
-        //L.tileLayer('https://api.mapbox.com/styles/v1/drp0ll0/cj0tausco00tb2rt87i5c8pi0/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiZHJwMGxsMCIsImEiOiI4bUpPVm9JIn0.NCRmAUzSfQ_fT3A86d9RvQ', {
-        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; ' + mapLink + ' Contributors',
             maxZoom: 18,
         }).addTo(map);
 
-
-        var icon = L.icon({
-            iconUrl: markerImg
-        });
-
-        marker = new L.marker([lat, lng], {
-            icon: icon
-        })
+        marker = new L.marker([lat, lng], {})
         .bindPopup(title)
         .addTo(map);
 

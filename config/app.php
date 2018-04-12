@@ -175,8 +175,8 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,\
-        //App\Providers\CreatorServiceProvider::class, // View Creator...
+        App\Providers\RouteServiceProvider::class,
+        App\Providers\CreatorServiceProvider::class, // View Creator...
         
         /*
          * Collective Html...

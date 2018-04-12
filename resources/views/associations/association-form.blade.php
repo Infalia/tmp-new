@@ -2,6 +2,8 @@
 
 @section('csslibs')
     {!! HTML::style('plugins/dropzone/dropzone.css') !!}
+    {!! HTML::style('plugins/owl/assets/owl.carousel.min.css') !!}
+    {!! HTML::style('plugins/owl/assets/owl.theme.green.min.css') !!}
 @endsection
 
 @section('content')
@@ -20,32 +22,32 @@
                         <div class="col xl6">
                             <div class="row">
                                 <div class="input-field col s12">
-                                    {!! Form::text('title', '', ['id' => 'title', 'class' => '', 'placeholder' => $titlePldr, 'maxlength' => '255']) !!}
+                                    {!! Form::text('title', $title, ['id' => 'title', 'class' => '', 'placeholder' => $titlePldr, 'maxlength' => '255']) !!}
                                     {!! Form::label('title', $titleLbl, ['class' => 'active']) !!}
                                 </div>
 
                                 <div class="input-field col s12">
-                                    {!! Form::text('phone', '', ['id' => 'phone', 'class' => '', 'placeholder' => $phonePldr, 'maxlength' => '20']) !!}
+                                    {!! Form::text('phone', $phone, ['id' => 'phone', 'class' => '', 'placeholder' => $phonePldr, 'maxlength' => '20']) !!}
                                     {!! Form::label('phone', $phoneLbl, ['class' => 'active']) !!}
                                 </div>
 
                                 <div class="input-field col s12">
-                                    {!! Form::text('phone_2', '', ['id' => 'phone_2', 'class' => '', 'placeholder' => $phone2Pldr, 'maxlength' => '20']) !!}
+                                    {!! Form::text('phone_2', $phone2, ['id' => 'phone_2', 'class' => '', 'placeholder' => $phone2Pldr, 'maxlength' => '20']) !!}
                                     {!! Form::label('phone_2', $phone2Lbl, ['class' => 'active']) !!}
                                 </div>
 
                                 <div class="input-field col s12">
-                                    {!! Form::email('email', '', ['id' => 'email', 'class' => '', 'placeholder' => $emailPldr, 'maxlength' => '255']) !!}
+                                    {!! Form::email('email', $email, ['id' => 'email', 'class' => '', 'placeholder' => $emailPldr, 'maxlength' => '255']) !!}
                                     {!! Form::label('email', $emailLbl, ['class' => 'active']) !!}
                                 </div>
 
                                 <div class="input-field col s12">
-                                    {!! Form::text('website', '', ['id' => 'website', 'class' => '', 'placeholder' => $websitePldr, 'maxlength' => '70']) !!}
+                                    {!! Form::text('website', $website, ['id' => 'website', 'class' => '', 'placeholder' => $websitePldr, 'maxlength' => '70']) !!}
                                     {!! Form::label('website', $websiteLbl, ['class' => 'active']) !!}
                                 </div>
 
                                 <div class="input-field col s12">
-                                    {!! Form::textarea('description', '', ['id' => 'description', 'class' => 'materialize-textarea', 'placeholder' => $descriptionPldr, 'data-length' => 1000]) !!}
+                                    {!! Form::textarea('description', $description, ['id' => 'description', 'class' => 'materialize-textarea', 'placeholder' => $descriptionPldr, 'data-length' => 1000]) !!}
                                     {!! Form::label('description', $descriptionLbl, ['class' => 'active']) !!}
                                 </div>
                             </div>
@@ -53,7 +55,7 @@
 
    
                         <div class="col s12 xl6">
-                            <iframe class="input-map" title="input a location" src="{{ config('app.url') }}/plugins/inputmap/src/index.html?domain={{ config('app.url') }}&mode=lite"></iframe>
+                            <iframe class="input-map" title="input a location" src="{{ env('INPUTMAP_URL') }}?domain={{ config('app.url') }}&mode=lite @if('update' == $mode)&lat={{ $latitude }}&lon={{ $longitude }}&zoom=14&state=edit @endif"></iframe>
                             
                             <div class="helper">
                                 <h2 class="h6"><u>Area Info</u></h2>
@@ -84,6 +86,20 @@
                                     <li><b>Address:</b> <span id="address"></span></li>
                                 </ul>
                             </div>
+                        </div>
+
+
+                        <div class="initiative-images col s12">
+                            @if(!empty($association->images))
+                            <div class="owl-carousel owl-theme">
+                                @foreach ($association->images as $image)
+                                <div class="item carousel-item">
+                                    {!! HTML::image('storage/associations/'.$image->name, $association->title, array('class' => '')) !!}
+                                    {!! Form::button('<i class="large material-icons">delete</i>', array('data-img-id' => $image->id, 'class' => 'waves-effect waves-light btn-floating remove-img')) !!}
+                                </div>
+                                @endforeach
+                            </div>
+                            @endif
                         </div>
 
 
@@ -149,8 +165,45 @@
 
 @section('jslibs')
     {!! HTML::script('plugins/dropzone/dropzone.min.js') !!}
+    {!! HTML::script('plugins/owl/owl.carousel.min.js') !!}
 
     <script>
+        $(document).ready(function() {
+            $('.owl-carousel').owlCarousel({
+                margin: 5,
+                
+                autoWidth:true,
+                responsive: {
+                    // breakpoint from 0 up
+                    0 : {
+                        items: 1
+                    },
+                    // breakpoint from 480 up
+                    480 : {
+                        items: 2
+                    },
+                    // breakpoint from 768 up
+                    768 : {
+                        items: 3
+                    },
+                    // breakpoint from 1024 up
+                    1024 : {
+                        items: 4
+                    },
+                    // breakpoint from 1200 up
+                    1200 : {
+                        items: 5
+                    },
+                    // breakpoint from 1400 up
+                    1400 : {
+                        items: 6
+                    }
+                }
+            });
+        });
+
+
+
         Dropzone.autoDiscover = false;
 
         var imgDropzone = new Dropzone("#assoc-dropzone", {
@@ -206,9 +259,9 @@
                     return
                 e.preventDefault();
 
-                if(e.origin !== iframeDomain) {
-                    return;
-                }
+                // if(e.origin !== iframeDomain) {
+                //     return;
+                // }
 
                 if(e.data.src == 'InputMap')
                     setInputMapData(e.data);
@@ -321,5 +374,41 @@
                 error : function(XMLHttpRequest, textStatus, errorThrown) {}
             });
         });
+
+
+        @if('update' == $mode)
+        $(document).on("click", ".remove-img", function(e) {
+            data = new Object();
+
+            data['init_id'] = '{{ $association->id }}';
+            data['image_id'] = $(this).attr('data-img-id');
+            
+
+            var url = "{{ url('association/image/remove') }}";
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: data,
+                dataType: 'json',
+                success: function(data) {
+                    var totalItems = $('.item').length;
+
+                    for(var i=0; i<totalItems; i++) {
+                        $(".owl-carousel").trigger('remove.owl.carousel', [i]);
+                    }
+
+                    var newItems = data.initImages;
+
+                    for(i=0; i<newItems.length; i++) {
+                        $('.owl-carousel').trigger('add.owl.carousel', ['<div class="item carousel-item"><img src="{{ env("APP_URL") }}/storage/associations/' + newItems[i]['name'] + '" alt=""> <button data-img-id="' + newItems[i]['id'] + '" class="waves-effect waves-light btn-floating remove-img" type="button"><i class="large material-icons">delete</i></button></div>']);
+                    }
+
+                    $('.owl-carousel').trigger('refresh.owl.carousel');
+                },
+                error : function(XMLHttpRequest, textStatus, errorThrown) {}
+            });
+        });
+        @endif
     </script>
 @endsection

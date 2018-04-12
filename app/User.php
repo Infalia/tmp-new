@@ -30,7 +30,16 @@ class User extends \TCG\Voyager\Models\User
         'password', 'remember_token',
     ];
     
-    
+
+    /**
+     * The associations that belong to the user.
+     *
+     * @return App\Association|null
+     */
+    public function association()
+    {
+        return $this->hasOne('App\Association');
+    }    
     
     /**
      * The initiatives that belong to the user.

@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('csslibs')
-    {!! HTML::style('dropzone/dropzone.css') !!}
-    {!! HTML::style('datepicker/datepicker.min.css') !!}
-    {!! HTML::style('owl/assets/owl.carousel.min.css') !!}
-    {!! HTML::style('owl/assets/owl.theme.green.min.css') !!}
+    {!! HTML::style('plugins/dropzone/dropzone.css') !!}
+    {!! HTML::style('plugins/datepicker/datepicker.min.css') !!}
+    {!! HTML::style('plugins/owl/assets/owl.carousel.min.css') !!}
+    {!! HTML::style('plugins/owl/assets/owl.theme.green.min.css') !!}
 @endsection
 
 @section('content')
@@ -55,7 +55,7 @@
                         </div>
 
                         <div class="col s12 xl6">
-                            <iframe class="init-form-map" title="input a location" src="{{ config('app.url') }}/plugins/inputmap/src/index.html?domain={{ config('app.url') }}&mode=lite"></iframe>
+                            <iframe class="input-map" title="input a location" src="https://inputmap.firstlife.org?domain={{ config('app.url') }}&lat={{ $initiativeLatitude }}&lon={{ $initiativeLongitude }}&zoom=14&state=edit&mode=lite"></iframe>
                             
                             <div class="helper">
                                 <h2 class="h6"><u>Area Info</u></h2>
@@ -165,10 +165,10 @@
 @endsection
 
 @section('jslibs')
-    {!! HTML::script('datepicker/datepicker.min.js') !!}
-    {!! HTML::script('datepicker/i18n/datepicker.en.js') !!}
-    {!! HTML::script('dropzone/dropzone.min.js') !!}
-    {!! HTML::script('owl/owl.carousel.min.js') !!}
+    {!! HTML::script('plugins/datepicker/datepicker.min.js') !!}
+    {!! HTML::script('plugins/datepicker/i18n/datepicker.en.js') !!}
+    {!! HTML::script('plugins/dropzone/dropzone.min.js') !!}
+    {!! HTML::script('plugins/owl/owl.carousel.min.js') !!}
 
     <script>
         $(document).ready(function() {
@@ -298,9 +298,9 @@
                     return
                 e.preventDefault();
 
-                if(e.origin !== iframeDomain) {
-                    return;
-                }
+                //if(e.origin !== iframeDomain) {
+                //    return;
+                //}
 
                 if(e.data.src == 'InputMap')
                     setInputMapData(e.data);

@@ -37,6 +37,15 @@ class Association extends Model
      */
     protected $dates = ['deleted_at'];
 
+
+    /**
+     * Get the user that owns the association.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
     /**
      * The association images.
      *

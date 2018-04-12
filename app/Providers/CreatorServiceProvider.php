@@ -15,7 +15,7 @@ class CreatorServiceProvider extends ServiceProvider
     public function boot()
     {
         // Using class based creators...
-######        View::creator('partials.header', 'App\Http\ViewCreators\UwumMenuCreator');
+        View::creator('partials.header', 'App\Http\ViewCreators\UwumMenuCreator');
     }
 
     /**

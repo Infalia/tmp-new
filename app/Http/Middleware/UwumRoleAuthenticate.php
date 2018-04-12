@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Closure;
 
-class UwumAuthenticate
+class UwumRoleAuthenticate
 {
     /**
      * Handle an incoming request.
@@ -16,13 +16,10 @@ class UwumAuthenticate
      */
     public function handle($request, Closure $next)
     {
-        if(!Auth::check()) {
+        if(!Auth::check() || (Auth::check() && !$request->session()->exists('association'))) {
             return redirect('login/uwum');
         }
 
-        // if(!Auth::check()) {
-        //     Auth::loginUsingId(1);
-        // }
 
         return $next($request);
     }
